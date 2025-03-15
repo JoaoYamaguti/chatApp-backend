@@ -1,21 +1,15 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: %i[ show update destroy ]
+  before_action :authenticate_request, only: [:create]
 
-  # GET /messages
-  def index
-    @messages = Message.all
-
-    render json: @messages
-  end
-
-  # GET /messages/1
-  def show
-    render json: @message
-  end
-
-  # POST /messages
+  # POST /messages/create
   def create
-    @message = Message.new(message_params)
+    userExists = User.find_by(id: params[:user_receiver_id])
+    if !userExists
+      render json: {message: "receiver user does not exists."} , status: :unprocessable_entity
+      return
+    end
+
+    @message = Message.new(user_sender_id: @current_user.id, user_receiver_id: params[:user_receiver_id], content: params[:content])
 
     if @message.save
       render json: @message, status: :created, location: @message
@@ -46,6 +40,6 @@ class MessagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def message_params
-      params.expect(message: [ :user_sender_id, :user_receiver_id, :content ])
+      params.expect(message: [ :user_receiver_id, :content ])
     end
 end
