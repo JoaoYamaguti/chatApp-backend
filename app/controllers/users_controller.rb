@@ -1,17 +1,9 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:update]
-
-
-  # GET /users
-  def index
-    @users = User.all
-
-    render json: @users
-  end
+  before_action :authenticate_request, only: [:show, :update, :destroy]
 
   # GET /users/1
   def show
-    render json: @user
+    render json: @current_user
   end
 
   # POST /users
@@ -32,7 +24,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
+  # PATCH/PUT /users/edit + token
   def update
     if params[:name]
       @current_user.update(name: params[:name])
@@ -45,9 +37,12 @@ class UsersController < ApplicationController
     render json: @current_user
   end
 
-  # DELETE /users/1
+  # DELETE /users/detele
   def destroy
-    @user.destroy!
+    if @current_user.destroy!
+      render json: {message: "User Deleted."}
+    end
+
   end
 
   private

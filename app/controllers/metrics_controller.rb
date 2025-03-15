@@ -2,8 +2,11 @@ class MetricsController < ApplicationController
 
     def show
         metrics = {
+            users: {
+                total: User.all.length
+            },
             messages: {
-                total: Message.all
+                total: Message.all.length
             }
         }
         render json: metrics
