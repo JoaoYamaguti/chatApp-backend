@@ -10,20 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_14_010903) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_15_185827) do
   create_table "messages", force: :cascade do |t|
+    t.integer "user_sender_id", null: false
+    t.integer "user_receiver_id", null: false
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_receiver_id"
-    t.integer "user_sender_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "password"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "password", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
+
+  add_foreign_key "messages", "users", column: "user_receiver_id"
+  add_foreign_key "messages", "users", column: "user_sender_id"
 end
