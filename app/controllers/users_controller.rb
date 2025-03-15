@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show update destroy ]
+  before_action :authenticate_request, only: [:update]
+
 
   # GET /users
   def index
@@ -13,16 +14,6 @@ class UsersController < ApplicationController
     render json: @user
   end
 
-  def userExists
-    userExists = User.find_by(email: params[:email])
-    
-    if userExists
-      render json: {status: "email already exists."}
-    end
-
-    render nil
-  end
-
   # POST /users
   def create
     userExists = User.find_by(email: params[:email])
@@ -32,7 +23,7 @@ class UsersController < ApplicationController
       return
     end
 
-    @user = User.new(user_params)
+    @user = User.new(name: params[:name], email: params[:email], password: params[:password])
 
     if @user.save
       render json: @user, status: :created, location: @user
@@ -43,11 +34,15 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
+    if params[:name]
+      @current_user.update(name: params[:name])
     end
+
+    if params[:password]
+      @current_user.update(password: params[:password])
+    end
+
+    render json: @current_user
   end
 
   # DELETE /users/1
