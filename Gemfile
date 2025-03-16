@@ -46,4 +46,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem 'rack-cors'
+
+  gem 'dotenv-rails', groups: [:development, :test]
+
+
 end
