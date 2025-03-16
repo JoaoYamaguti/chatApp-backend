@@ -3,7 +3,11 @@ class UsersController < ApplicationController
 
   # GET /users/1
   def show
-    render json: @current_user
+    render json: {
+      id: @current_user.id,
+      name: @current_user.name,
+      email: @current_user.email
+    }
   end
 
   # POST /users
@@ -11,13 +15,13 @@ class UsersController < ApplicationController
     userExists = User.find_by(email: params[:email])
     
     if userExists
-      render json: {status: "email already exists."}
+      render json: {message: "email already exists."}
       return
     end
 
     @user = User.create(name: params[:name], email: params[:email], password: params[:password])
 
-    render json:
+    render json: {message: "User created."}
   end
 
   # PATCH/PUT /users/edit + token
@@ -30,7 +34,11 @@ class UsersController < ApplicationController
       @current_user.update(password: params[:password])
     end
 
-    render json: @current_user
+    render json: {
+      id: @current_user.id,
+      name: @current_user.name,
+      email: @current_user.email
+    }
   end
 
   # DELETE /users/detele

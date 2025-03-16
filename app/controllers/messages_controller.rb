@@ -5,9 +5,9 @@ class MessagesController < ApplicationController
   def show 
     id = 2
     render json: {
-      message: Message.find(id)
+      message: Message.find(id),
       user_sender: Message.find(id).user_sender,
-      user_receiver: Message.find(id).user_receiver,
+      user_receiver: Message.find(id).user_receiver
     }
   end
 
@@ -19,13 +19,9 @@ class MessagesController < ApplicationController
       return
     end
 
-    @message = Message.new(user_sender_id: @current_user.id, user_receiver_id: params[:user_receiver_id], content: params[:content])
+    @message = Message.create(user_sender_id: @current_user.id, user_receiver_id: params[:user_receiver_id], content: params[:content])
 
-    if @message.save
-      render json: @message, status: :created, location: @message
-    else
-      render json: @message.errors, status: :unprocessable_entity
-    end
+    render json: {message: "Message sent."}
   end
 
   private
