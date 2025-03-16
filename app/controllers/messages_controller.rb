@@ -1,6 +1,16 @@
 class MessagesController < ApplicationController
   before_action :authenticate_request, only: [:create]
 
+  # GET /messages/show
+  def show 
+    id = 2
+    render json: {
+      message: Message.find(id)
+      user_sender: Message.find(id).user_sender,
+      user_receiver: Message.find(id).user_receiver,
+    }
+  end
+
   # POST /messages/create
   def create
     userExists = User.find_by(id: params[:user_receiver_id])
@@ -16,20 +26,6 @@ class MessagesController < ApplicationController
     else
       render json: @message.errors, status: :unprocessable_entity
     end
-  end
-
-  # PATCH/PUT /messages/1
-  def update
-    if @message.update(message_params)
-      render json: @message
-    else
-      render json: @message.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /messages/1
-  def destroy
-    @message.destroy!
   end
 
   private

@@ -15,13 +15,9 @@ class UsersController < ApplicationController
       return
     end
 
-    @user = User.new(name: params[:name], email: params[:email], password: params[:password])
+    @user = User.create(name: params[:name], email: params[:email], password: params[:password])
 
-    if @user.save
-      render json: @user, status: :created, location: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
+    render json:
   end
 
   # PATCH/PUT /users/edit + token

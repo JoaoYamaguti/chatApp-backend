@@ -15,7 +15,11 @@ Rails.application.routes.draw do
 
   post "login", to: "auth#login"
 
+  get "messages/show", tp: "messages#show"
   post "messages/create", to: "messages#create"
+
+  get "chat", to: "chat#index"
+  get "chat/:id", to: "chat#show"
 
   get "metrics", to: "metrics#show"
 end
