@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
   def create
     userExists = User.find_by(id: params[:user_receiver_id])
     if !userExists
-      render json: {message: "receiver user does not exists."} , status: :unprocessable_entity
+      render json: {error: "receiver user does not exists."} , status: :unprocessable_entity
       return
     end
 

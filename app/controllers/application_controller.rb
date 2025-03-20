@@ -5,6 +5,13 @@ class ApplicationController < ActionController::API
     
         begin
           decoded = JsonWebToken.decode(token)
+          puts decoded
+
+          if !decoded || decoded === nil
+            render json: { error: 'Token inválido ou expirado'}, status: :unauthorized
+            return
+          end 
+      
           @current_user = User.find(decoded[:user_id])
         rescue JWT::DecodeError => e
           render json: { error: 'Token inválido ou expirado' }, status: :unauthorized

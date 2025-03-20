@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     userExists = User.find_by(email: params[:email])
     
     if userExists
-      render json: {message: "email already exists."}
+      render json: {error: "email already exists."}
       return
     end
 
