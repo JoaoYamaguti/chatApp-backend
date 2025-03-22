@@ -5,7 +5,7 @@ class AuthController < ApplicationController
 
     if @user&.authenticate(params[:password]) # Verifica se a senha está correta
       token = JsonWebToken.encode(user_id: @user.id) # Gera o token JWT
-      render json: { token: token }, status: :ok
+      render json: { token: token, id: @user.id }, status: :ok
     else
       render json: { error: 'Credenciais inválidas' }, status: :unauthorized
     end

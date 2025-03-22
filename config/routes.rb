@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   post "users/create", to: "users#create"
-  get "users/show", to: "users#show"
+  get "users/show/:id", to: "users#show"
   post "users/edit", to:"users#update"
   delete "users/delete", to: "users#destroy"
 

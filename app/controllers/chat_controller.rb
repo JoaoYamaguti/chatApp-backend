@@ -20,10 +20,16 @@ class ChatController < ApplicationController
     #GET chat/:id
     def show
         id = params.expect(:id)
+        page = Integer(params[:page])
+        quantitymgs = page * 10
+        totalMessages = Message.where(user_sender_id: @current_user.id).where(user_receiver_id: id).or(Message.where(user_sender_id: id).where(user_receiver_id: @current_user.id)).count()
         render json: {
             receiver_user: User.find(id),
-            messages: Message.where(user_sender_id: @current_user.id).where(user_receiver_id: id).or(Message.where(user_sender_id: id).where(user_receiver_id: @current_user.id)).order(created_at: :asc)
+            totalMessages: totalMessages,
+            messages: Message.where(user_sender_id: @current_user.id).where(user_receiver_id: id).or(Message.where(user_sender_id: id).where(user_receiver_id: @current_user.id))
+            .order(created_at: :asc)
+            .limit(quantitymgs)
+            .offset(totalMessages - quantitymgs)
         }
     end
-
 end

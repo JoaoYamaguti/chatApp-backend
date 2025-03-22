@@ -2,14 +2,15 @@ class MetricsController < ApplicationController
 
     def show
         metrics = {
-            users: {
-                total: User.all.count
-            },
-            messages: {
-                total: Message.all.count,
-                sender: Message.where(user_sender_id: 1).count
-            },
-        }
+                users: {
+                    total: User.all.count,
+                    online: "undefined",
+                    offline: "undefined",
+                },
+                messages: {
+                    total: Message.all.count,
+                },
+            }
         render json: metrics
     end
 end

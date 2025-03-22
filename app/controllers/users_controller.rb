@@ -1,12 +1,20 @@
 class UsersController < ApplicationController
-  before_action :authenticate_request, only: [:show, :update, :destroy]
+  before_action :authenticate_request, only: [:update, :destroy]
 
   # GET /users/1
   def show
+    userExists = User.find_by(id: params[:id])
+
+    if !userExists
+      render json: {error: "Usuário não encontrado."}, status: :not_found
+      
+      return
+    end
+
     render json: {
-      id: @current_user.id,
-      name: @current_user.name,
-      email: @current_user.email
+      id: userExists.id,
+      name: userExists.name,
+      email: userExists.email
     }
   end
 
@@ -15,7 +23,7 @@ class UsersController < ApplicationController
     userExists = User.find_by(email: params[:email])
     
     if userExists
-      render json: {error: "email already exists."}
+      render status: :bad_request, json: {error: "email already exists."}
       return
     end
 
@@ -57,6 +65,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.expect(user: [ :name, :email, :password ])
+      params.expect(user: [ :id, :name, :email, :password ])
     end
 end
