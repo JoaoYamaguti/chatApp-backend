@@ -23,6 +23,12 @@ Inicialmente este projeto nasceu para ser um teste, onde o projeto basicamente c
 bundle install
 ```
 
+### Data Base Migration
+
+```sh
+rails db:migrate
+```
+
 ### Set Invironment Variable 
 
 Crie o arquivo .env para configurar as seguintes variaveis ambiente:
