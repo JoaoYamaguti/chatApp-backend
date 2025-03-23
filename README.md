@@ -1,8 +1,6 @@
 # chatApp-backend
 
-Inicialmente este projeto é um teste para a [vaga de Dev Jr.](https://github.com/rhuantac/vaga-dev-voll) da empresa [Voll](https://vollsolutions.com.br/).
-
-O projeto basicamente consiste em um chat para troca de mensagens entre os usuários.
+Inicialmente este projeto nasceu para ser um teste, onde o projeto basicamente consiste em um chat para troca de mensagens entre os usuários.
 
 #### Diferenciais (Extras Opcionais)
 
@@ -13,7 +11,7 @@ O projeto basicamente consiste em um chat para troca de mensagens entre os usuá
 - [x] Criação de um endpoint de métricas (/metrics) com estatísticas sobre mensagens enviadas e usuários ativos.
 - [ ] Processamento assíncrono de mensagens utilizando fila de tarefas (exemplo: Redis + Sidekiq).
 
-## Tecmologias Usadas
+## Tecnologias Usadas
 - Ruby on Rails API: Framwork para construir a RestAPI.
 - ActiveRecords: ORM utilizada pelo Rails.
 - JWT: Ferramenta de autenticação web.
